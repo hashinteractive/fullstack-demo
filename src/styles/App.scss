@@ -1,36 +1,103 @@
-table {
-  font-family: 'Arial';
-  margin: 25px auto;
-  border-collapse: collapse;
-  border: 1px solid #eee;
-  border-bottom: 2px solid #00cccc;
-  box-shadow: 0px 0px 20px rgba(0,0,0,0.10),
-     0px 10px 20px rgba(0,0,0,0.05),
-     0px 20px 20px rgba(0,0,0,0.05),
-     0px 30px 20px rgba(0,0,0,0.05);
-  tr {
-     &:hover {
-      background: #f4f4f4;
-      
-      td {
-        color: #555;
+$primary: #8dc1d2;
+
+.app{
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  .overlay{
+    position: fixed;
+    background: rgba(0,0,0,0.7);
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modal{
+      background: white;
+      padding: 2em;
+      min-width: 500px;
+
+      @media screen and (max-width: 500px){
+        min-width: initial;
+        max-width: 100vw;
       }
     }
   }
-  th, td {
-    color: #999;
-    border: 1px solid #eee;
-    padding: 12px 35px;
-    border-collapse: collapse;
-    max-width: 400px;
+  .container{
+    max-width: 1280px;
+    margin: 0 auto;
   }
-  th {
-    background: #00cccc;
-    color: #fff;
-    text-transform: uppercase;
-    font-size: 12px;
-    &.last {
-      border-right: none;
+  table {
+    width: 100%;
+    margin: 25px auto 50px;
+    border-collapse: collapse;
+    border: 1px solid #eee;
+    border-bottom: 2px solid #00cccc;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.10),
+      0px 10px 20px rgba(0,0,0,0.05),
+      0px 20px 20px rgba(0,0,0,0.05),
+      0px 30px 20px rgba(0,0,0,0.05);
+    tr {
+      &:hover {
+        background: #f4f4f4;
+        
+        td {
+          color: #555;
+        }
+      }
+    }
+    th, td {
+      color: #999;
+      border: 1px solid #eee;
+      padding: 12px 35px;
+      border-collapse: collapse;
+      max-width: 400px;
+    }
+    th {
+      background: $primary;
+      color: #fff;
+      text-transform: uppercase;
+      font-size: 12px;
+      &.last {
+        border-right: none;
+      }
+    }
+  }
+  button{
+    &.btn{
+      background: $primary;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      padding: 1em 1.65em;
+      outline: none;
+      box-shadow: 0px 1px 3px rgba(0,0,0,0.15);
+      cursor: pointer;
+    }
+  }
+  form{
+    color: #8e8e8e;
+    .controls{
+      margin-bottom: 1em;
+
+      input, textarea, select{
+        display: block;
+        padding: 0.45rem 1rem;
+        box-sizing: border-box;
+        margin: 0.35rem 0;
+        width: 100%;
+        border: 0;
+        border-radius: 3px;
+        background: #ddd;
+        color: darkslategray;
+      }
+
+      select{
+        option{
+          padding: 0.45rem 1rem;
+        }
+      }
     }
   }
 }

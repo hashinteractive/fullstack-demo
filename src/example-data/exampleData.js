@@ -18,7 +18,7 @@ const exampleData = [
   {
     bugName: '3',
     bugDescription: 'Unit test #202200324 is failing on Jeff\'s computer',
-    reportedBy: 'Daniel',
+    reportedBy: 'Troy',
     createdDate: '1/6/2020',
     assignedTo: 'Bailey',
     threatLevel: 'Low-Priority',

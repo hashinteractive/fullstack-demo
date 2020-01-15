@@ -11,7 +11,7 @@ const Nav = (props) => (
       <th>
         <label>Threat Level &nbsp;</label>
         <select id="myList" onChange={(e) => props.filterHandler(e.target.value)}>
-          <option value="None"></option>
+          <option value="All">All</option>
           <option value="Low-Priority">Low-Priority</option>
           <option value="Important">Important</option>
           <option value="Critical">Critical</option>
