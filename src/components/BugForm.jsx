@@ -4,13 +4,14 @@ class BugForm extends Component{
   constructor(props){
     super(props)
     this.handleChange = this.handleChange.bind(this)
+    let form = props.form || {
+      reportedBy: '',
+      assignedTo: '',
+      threatLevel: 'Low-Priority',
+      description: ''
+    }
     this.state = {
-      form: {
-        reportedBy: '',
-        assignedTo: '',
-        threatLevel: 'Low-Priority',
-        description: ''
-      }
+      form
     }
   }
   handleChange(e){
@@ -28,7 +29,7 @@ class BugForm extends Component{
             Reported By<br />
             <input
               onChange={this.handleChange}
-              type="text" name="reportedBy" value={this.state.form.reported} />
+              type="text" name="reportedBy" value={this.state.form.reportedBy} />
           </label>
         </div>
         <div className="controls">
@@ -36,14 +37,14 @@ class BugForm extends Component{
             Assigned To<br />
             <input 
             onChange={this.handleChange}
-            type="text" name="assignedTo" value={this.state.form.assigned} />
+            type="text" name="assignedTo" value={this.state.form.assignedTo} />
           </label>
         </div>
         <div className="controls">
           <label>Threat Level</label>
           <select 
             onChange={this.handleChange}
-            value={this.state.form.threat}
+            value={this.state.form.threatLevel}
             name="threatLevel">
             <option>Low-Priority</option>
             <option>Important</option>

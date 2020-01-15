@@ -14,12 +14,15 @@ class App extends React.Component {
       filter: 'All',
       bugs: exampleData,
       cached: exampleData,
-      toggle: false
+      toggle: false,
+      method: 'POST',
+      bug: null
     };
     this.fetchBugs = this.fetchBugs.bind(this);
     this.filterHandler = this.filterHandler.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleRowClick = this.handleRowClick.bind(this);
     this.fetchBugs()
   }
 
@@ -39,16 +42,25 @@ class App extends React.Component {
   toggleModal(){
     this.setState((state) => ({ toggle: !state.toggle }))
   }
+  handleRowClick(bug){
+    this.setState({ bug, toggle: !this.state.toggle, method: 'PATCH' })
+  }
   async handleSubmit(form){
     let bug = await fetch(`http://localhost:3000/api/bugs`, { 
       headers: {
         'Content-Type': 'application/json'
       },
-      method: 'POST',
+      method: this.state.method,
       body: JSON.stringify(form)
     }).then(res => res.json())
 
-    const bugs = [...this.state.bugs, bug]
+    const bugs = [...this.state.bugs]
+    if(this.state.method === 'POST'){
+      bugs.push(bug)
+    }else{
+      let index = bugs.findIndex(b => b._id === bug._id)
+      bugs.splice(index, 1, bug)
+    }
     this.setState({ bugs, cached: bugs, toggle: !this.state.toggle })
   }
 
@@ -60,8 +72,10 @@ class App extends React.Component {
             <Nav
               filterHandler={this.filterHandler}
             />
-            {this.state.bugs.map((bug, i) => (
+            <tbody>
+            {this.state.bugs.map((bug, i) => 
               <BugTile
+                click={this.handleRowClick.bind(this, bug)}
                 bugName={bug._id}
                 bugDescription={bug.description}
                 reportedBy={bug.reportedBy}
@@ -70,16 +84,22 @@ class App extends React.Component {
                 threatLevel={bug.threatLevel}
                 key={bug._id || i}
               />
-            ))}
+            )}
+            </tbody>
           </table>
           <button 
-            onClick={this.toggleModal}
+            onClick={ () => {
+              this.setState({ bug: null, method: 'POST' }, () => {
+                this.toggleModal()
+              })
+            }}
             className="btn">Create Ticket</button>
         </div>
         { this.state.toggle && 
           <Modal
             toggle={this.toggleModal}>
             <BugForm
+             form={this.state.bug}
              submit={this.handleSubmit} />
           </Modal> 
         }

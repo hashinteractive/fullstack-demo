@@ -26,6 +26,18 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+/** Update Route **/
+router.patch('/', async(req, res, next) => {
+  const { body: bug } = req
+  try{
+    let updated = await Bug.findByIdAndUpdate( bug._id, bug, { new: true })
+    res.status(200).json(updated)
+  }catch(err){
+    console.log(err)
+    next(err)
+  }
+})
+
 /** Delete Route **/
 router.delete('/:id', async (req, res, next) => {
   const { params: { id } } = req
