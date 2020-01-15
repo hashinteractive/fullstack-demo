@@ -1,12 +1,6 @@
 {
   "name": "fullstack-demo",
   "version": "1.0.0",
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ]
-  },
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -41,6 +35,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "moment": "^2.24.0",
     "mongoose": "^5.8.5",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"

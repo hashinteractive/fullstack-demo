@@ -16,10 +16,17 @@ class App extends React.Component {
       cached: exampleData,
       toggle: false
     };
+    this.fetchBugs = this.fetchBugs.bind(this);
     this.filterHandler = this.filterHandler.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.fetchBugs()
   }
 
+  async fetchBugs(){
+    let bugs = await fetch(`http://localhost:3000/api/bugs`).then(res => res.json())
+    this.setState({ bugs, cached: bugs })
+  }
   filterHandler(filter) {
     this.setState({ filter }, () => {
       let { filter: value, cached } = this.state
@@ -32,6 +39,18 @@ class App extends React.Component {
   toggleModal(){
     this.setState((state) => ({ toggle: !state.toggle }))
   }
+  async handleSubmit(form){
+    let bug = await fetch(`http://localhost:3000/api/bugs`, { 
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(form)
+    }).then(res => res.json())
+
+    const bugs = [...this.state.bugs, bug]
+    this.setState({ bugs, cached: bugs, toggle: !this.state.toggle })
+  }
 
   render() {
     return (
@@ -41,15 +60,15 @@ class App extends React.Component {
             <Nav
               filterHandler={this.filterHandler}
             />
-            {this.state.bugs.map((bug) => (
+            {this.state.bugs.map((bug, i) => (
               <BugTile
-                bugName={bug.bugName}
-                bugDescription={bug.bugDescription}
+                bugName={bug._id}
+                bugDescription={bug.description}
                 reportedBy={bug.reportedBy}
-                createdDate={bug.createdDate}
+                createdDate={bug.created}
                 assignedTo={bug.assignedTo}
                 threatLevel={bug.threatLevel}
-                key={bug.bugName}
+                key={bug._id || i}
               />
             ))}
           </table>
@@ -60,7 +79,8 @@ class App extends React.Component {
         { this.state.toggle && 
           <Modal
             toggle={this.toggleModal}>
-            <BugForm />
+            <BugForm
+             submit={this.handleSubmit} />
           </Modal> 
         }
       </div>
